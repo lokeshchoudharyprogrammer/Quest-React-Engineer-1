@@ -1,32 +1,67 @@
 import logo from './logo.svg';
 import './App.css';
 import { Image } from '@chakra-ui/react';
+import { useEffect, useState } from 'react';
 
 function App() {
+
+
+  const [image, SetImage] = useState("yes")
+  const options = {
+    method: 'GET',
+    headers: {
+      accept: 'application/json',
+      apikey: 'k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be',
+      userid: 'u-a2399489-9cd0-4c94-ad12-568379202b08',
+      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LWEyMzk5NDg5LTljZDAtNGM5NC1hZDEyLTU2ODM3OTIwMmIwOCIsImlhdCI6MTcwNzk4NzYyOSwiZXhwIjoxNzA4NTkyNDI5fQ.fESDqKunAqLUgHBCUsNYpGcNrTeVEty91HqGebX59Uc'
+    }
+  };
+  useEffect(() => {
+    fetch('https://staging.questprotocol.xyz/api/users/u-a2399489-9cd0-4c94-ad12-568379202b08', options)
+      .then(response => response.json())
+      .then(response => SetImage(response?.data))
+      .catch(err => console.error(err));
+  }, [])
+  console.log(image)
+
   return (
     <div className="App">
-      <div>
+      <div style={{
+        fontSize: '20px',
+        fontWeight: 600,
+        fontFamily: 'inherit',
+        color: 'white'
+      }}>
         <h2>Profile</h2>
       </div>
-      <div>
-      <Image
-          borderRadius='full'
-          boxSize='150px'
-          border={"3px solid white"}
-          src='https://bit.ly/dan-abramov'
-          alt='Dan Abramov'
-          width="87px"
-          height="86px"
-          boxShadow="rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px"
-         
-        />
-      </div>
 
-      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "80%", background: "white", height: "600px", borderRadius: "12px" }}>
-       
+
+      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "80%", background: "white", height: "600px", borderRadius: "12px" }}>
+
+        <Image
+
+          src={image?.imageUrl}
+          alt={image?.name}
+
+          style={{
+            boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.3)",
+            marginTop: "-55px",
+            borderRadius: "50%",
+            boxSize: '150px',
+            border: "3px solid white",
+            width: "87px",
+            height: "86px"
+          }}
+
+        />
         <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", background: "white" }}>
           <div>
-            <h3 style={{ background: "white" }}>Rich Explorer</h3>
+            <h3 style={{
+              fontWeight: 700,
+              background: 'white',
+              fontSize: 'larger',
+              fontFamily: 'sans-serif'
+            }}>{image?.name}</h3>
           </div>
           <div style={{ display: "flex", gap: "12px", marginTop: "22px", background: "white" }}>
             <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
