@@ -1,12 +1,10 @@
-import logo from './logo.svg';
+
 import './App.css';
 import { Image } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import DisplayComponent from './Pages/DisplayComponent';
 import Badges from './Pages/Badges';
 import Membership from './Pages/Membership';
 import PointHistory from './Pages/PointHistory';
-import Dashboard from './Pages/Dashboard';
 import UserNavigation from './Pages/UserNavigation';
 
 function App() {
@@ -18,36 +16,39 @@ function App() {
   const options = {
     method: 'GET',
     headers: {
-      accept: 'application/json',
-      apikey: 'k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be',
-      userid: 'u-a2399489-9cd0-4c94-ad12-568379202b08',
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LWEyMzk5NDg5LTljZDAtNGM5NC1hZDEyLTU2ODM3OTIwMmIwOCIsImlhdCI6MTcwNzk4NzYyOSwiZXhwIjoxNzA4NTkyNDI5fQ.fESDqKunAqLUgHBCUsNYpGcNrTeVEty91HqGebX59Uc'
+      'Accept': 'application/json',
+      'apikey': 'k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be',
+      'userid': 'u-a2399489-9cd0-4c94-ad12-568379202b08',
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LWEyMzk5NDg5LTljZDAtNGM5NC1hZDEyLTU2ODM3OTIwMmIwOCIsImlhdCI6MTcwNzk4NzYyOSwiZXhwIjoxNzA4NTkyNDI5fQ.fESDqKunAqLUgHBCUsNYpGcNrTeVEty91HqGebX59Uc'
     }
   };
+
+  async function fetchDataFromAPI(url) {
+    try {
+      const response = await fetch(url, options);
+      return await response.json();
+    } catch (error) {
+      console.error('Error', error);
+      return null;
+    }
+  }
+
   useEffect(() => {
-    fetch('https://staging.questprotocol.xyz/api/users/u-a2399489-9cd0-4c94-ad12-568379202b08', options)
-      .then(response => response.json())
-      .then(response => SetImage(response?.data))
-      .catch(err => console.error(err));
+    const fetchUserData = async () => {
+      const profileData = await fetchDataFromAPI('https://staging.questprotocol.xyz/api/users/u-a2399489-9cd0-4c94-ad12-568379202b08');
+      SetImage(profileData?.data);
+
+      const rankData = await fetchDataFromAPI('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp-leaderboard-rank');
+      SetRank(rankData?.data.position);
+
+      const xpData = await fetchDataFromAPI('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp');
+      Setlevel(xpData);
 
 
-    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp-leaderboard-rank', options)
-      .then(response => response.json())
-      .then(response => SetRank(response.data.position))
-      .catch(err => console.error(err));
+    };
 
-    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp', options)
-      .then(response => response.json())
-      .then(response => Setlevel(response))
-      .catch(err => console.error(err));
-
-
-    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/badges', options)
-      .then(response => response.json())
-      .then(response => console.log(response, "badge"))
-      .catch(err => console.error(err));
-  }, [])
- 
+    fetchUserData();
+  }, []);
 
   return (
     <div className="App">
@@ -61,7 +62,7 @@ function App() {
       </div>
 
 
-      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "90%", background: "white", height: "800px", borderRadius: "12px" }}>
+      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "90%", background: "white", height: "833px", borderRadius: "12px" }}>
 
         <Image
 

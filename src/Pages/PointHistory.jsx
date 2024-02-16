@@ -1,25 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 
 function PointHistory() {
-  const [data, SetData] = useState([])
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
+  const fetchData = async () => {
     const options = {
       method: 'GET',
       headers: {
-        accept: 'application/json',
-        apikey: 'k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be',
-        userid: 'u-a2399489-9cd0-4c94-ad12-568379202b08',
-        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LWEyMzk5NDg5LTljZDAtNGM5NC1hZDEyLTU2ODM3OTIwMmIwOCIsImlhdCI6MTcwNzk4NzYyOSwiZXhwIjoxNzA4NTkyNDI5fQ.fESDqKunAqLUgHBCUsNYpGcNrTeVEty91HqGebX59Uc'
+        'accept': 'application/json',
+        'apikey': 'k-6fe7e7dc-ac8f-44a1-8bbf-a1754ddf88be',
+        'userid': 'u-a2399489-9cd0-4c94-ad12-568379202b08',
+        'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJ1LWEyMzk5NDg5LTljZDAtNGM5NC1hZDEyLTU2ODM3OTIwMmIwOCIsImlhdCI6MTcwNzk4NzYyOSwiZXhwIjoxNzA4NTkyNDI5fQ.fESDqKunAqLUgHBCUsNYpGcNrTeVEty91HqGebX59Uc'
       }
     };
 
-    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp-history?page=1&limit=20', options)
-      .then(response => response.json())
-      .then(response => SetData(response.data))
-      .catch(err => console.error(err));
-  }, [])
-  console.log(data)
+    try {
+      const response = await fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp-history?page=1&limit=20', options);
+      const responseData = await response.json();
+      setData(responseData.data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div>
       <div style={{
@@ -29,12 +42,12 @@ function PointHistory() {
         justifyContent: "center",
         background: "white",
         paddingTop: "22px",
-        
+
       }}>
         {
-          data.map((res) => {
+          data.map((res, index) => {
             return <>
-              <p style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "#6853f2", borderRadius: "12px", color: "white" }}>
+              <p key={index} style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "#6853f2", borderRadius: "12px", color: "white" }}>
                 {res.title}
               </p>
             </>
@@ -45,4 +58,4 @@ function PointHistory() {
   );
 }
 
-export default PointHistory;
+export default memo(PointHistory);

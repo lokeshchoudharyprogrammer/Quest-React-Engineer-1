@@ -8,17 +8,17 @@ function UserNavigation() {
     return (
         <div>
             <div style={{
-                display: 'flex',
-                padding: '14px',
-                gap: '66px',
-                boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px',
-                borderRadius: '12px',
-                
-                bottom: '45',
-                
+                position: 'absolute',
+                bottom: '0',
+                left: '0',
                 width: '100%',
+                display: 'flex',
                 justifyContent: 'center',
-               
+                padding: '14px',
+                gap: "66px",
+                borderRadius: '12px',
+             
+
             }}>
                 <div><RiHomeFill /></div>
                 <div><IoSearch />

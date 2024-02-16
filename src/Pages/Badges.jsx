@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import { Image, Modal, ModalOverlay, ModalContent, ModalBody, ModalHeader, ModalCloseButton, Text, Box } from '@chakra-ui/react';
 
 function Badges() {
     const [badges, setBadges] = useState([]);
     const [selectedBadge, setSelectedBadge] = useState(null);
-
+    const [loading, setLoading] = useState(true);
     useEffect(() => {
-        // Fetch badges data
+
         fetchBadges();
     }, []);
 
@@ -23,8 +23,10 @@ function Badges() {
             });
             const data = await response.json();
             setBadges(data.data);
+            setLoading(false)
         } catch (error) {
-            console.error('Error fetching badges:', error);
+            console.error('Error:', error);
+            setLoading(false)
         }
     };
 
@@ -35,6 +37,9 @@ function Badges() {
     const handleCloseModal = () => {
         setSelectedBadge(null);
     };
+    if (loading) {
+        return <h4>Loading....</h4>
+    }
 
     return (
         <>
@@ -88,11 +93,11 @@ function Badges() {
                     height: '100vh',
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
                     backdropFilter: 'blur(8px)',
-                    zIndex: 1000 
+                    zIndex: 1000
                 }} onClick={handleCloseModal} />
             )}
         </>
     );
 }
 
-export default Badges;
+export default memo(Badges);
