@@ -27,7 +27,8 @@ function PointHistory() {
         gap: "23px",
         justifyContent: "center",
         background: "white",
-        paddingTop: "22px"
+        paddingTop: "22px",
+        
       }}>
         {
           data.map((res) => {
