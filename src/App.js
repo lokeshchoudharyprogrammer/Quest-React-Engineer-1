@@ -7,6 +7,8 @@ function App() {
 
 
   const [image, SetImage] = useState("yes")
+  const [rank, SetRank] = useState()
+  const [level, Setlevel] = useState([])
   const options = {
     method: 'GET',
     headers: {
@@ -20,6 +22,17 @@ function App() {
     fetch('https://staging.questprotocol.xyz/api/users/u-a2399489-9cd0-4c94-ad12-568379202b08', options)
       .then(response => response.json())
       .then(response => SetImage(response?.data))
+      .catch(err => console.error(err));
+
+
+    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp-leaderboard-rank', options)
+      .then(response => response.json())
+      .then(response => SetRank(response.data.position))
+      .catch(err => console.error(err));
+
+    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/xp', options)
+      .then(response => response.json())
+      .then(response => Setlevel(response))
       .catch(err => console.error(err));
   }, [])
   console.log(image)
@@ -65,15 +78,15 @@ function App() {
           </div>
           <div style={{ display: "flex", gap: "12px", marginTop: "22px", background: "white" }}>
             <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
-              <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>2100</h5>
+              <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>{level.xpThreshold}</h5>
               <p>Points</p>
             </div>
             <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
-              <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>#1</h5>
+              <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>#{rank}</h5>
               <p>Rank</p>
             </div>
             <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
-              <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>3</h5>
+              <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>{level.tier}</h5>
               <p>Level</p>
             </div>
           </div>
