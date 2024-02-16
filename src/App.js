@@ -2,13 +2,18 @@ import logo from './logo.svg';
 import './App.css';
 import { Image } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
+import DisplayComponent from './Pages/DisplayComponent';
+import Badges from './Pages/Badges';
+import Membership from './Pages/Membership';
+import PointHistory from './Pages/PointHistory';
+import Dashboard from './Pages/Dashboard';
 
 function App() {
-
-
-  const [image, SetImage] = useState("yes")
+  const [image, SetImage] = useState("")
   const [rank, SetRank] = useState()
   const [level, Setlevel] = useState([])
+  const [loading, setLoading] = useState(null)
+
   const options = {
     method: 'GET',
     headers: {
@@ -34,8 +39,14 @@ function App() {
       .then(response => response.json())
       .then(response => Setlevel(response))
       .catch(err => console.error(err));
+
+
+    fetch('https://staging.questprotocol.xyz/api/entities/e-0000000000/users/u-a2399489-9cd0-4c94-ad12-568379202b08/badges', options)
+      .then(response => response.json())
+      .then(response => console.log(response, "badge"))
+      .catch(err => console.error(err));
   }, [])
-  console.log(image)
+  // console.log(image)
 
   return (
     <div className="App">
@@ -49,7 +60,7 @@ function App() {
       </div>
 
 
-      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "80%", background: "white", height: "600px", borderRadius: "12px" }}>
+      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "80%", background: "white", height: "800px", borderRadius: "12px" }}>
 
         <Image
 
@@ -77,15 +88,15 @@ function App() {
             }}>{image?.name}</h3>
           </div>
           <div style={{ display: "flex", gap: "12px", marginTop: "22px", background: "white" }}>
-            <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
+            <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "#6853f2", borderRadius: "12px", color: "white" }}>
               <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>{level.xpThreshold}</h5>
               <p>Points</p>
             </div>
-            <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
+            <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "#6853f2", borderRadius: "12px", color: "white" }}>
               <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>#{rank}</h5>
               <p>Rank</p>
             </div>
-            <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", borderRadius: "12px", color: "white" }}>
+            <div style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "#6853f2", borderRadius: "12px", color: "white" }}>
               <h5 style={{ fontWeight: "600", fontFamily: "system-ui", fontSize: "larger" }}>{level.tier}</h5>
               <p>Level</p>
             </div>
@@ -93,16 +104,29 @@ function App() {
         </div>
 
         <div style={{ display: "flex", gap: "22px", paddingTop: "22px", background: "white" }}>
-          <div style={{ background: "white", color: "#a6a0a0", fontWeight: "600" }}>Membership</div>
-          <div style={{ background: "white", color: "#a6a0a0", fontWeight: "600" }} >Badges</div>
-          <div style={{ background: "white", color: "#a6a0a0", fontWeight: "600" }}>Point History</div>
+          <div style={{ background: "white", color: "#a6a0a0", fontWeight: "600" }}>
+            <button onClick={() => setLoading("Membership")}>Membership</button>
+          </div>
+          <div style={{ background: "white", color: "#a6a0a0", fontWeight: "600" }} >
+            <button onClick={() => setLoading("Badges")}>
+              Badges
+            </button>
+          </div>
+          <div style={{ background: "white", color: "#a6a0a0", fontWeight: "600" }}>
+            <button onClick={() => setLoading("PointHistory")}>
+              Point History
+            </button>
+          </div>
         </div>
-
-
-
-
+        <div>
+          <>
+            {loading === "Membership" && <Membership />}
+            {loading === "Badges" && <Badges />}
+            {loading === "PointHistory" && <PointHistory />}
+            {loading == null && null}
+          </>
+        </div>
       </div>
-
     </div>
   );
 }
