@@ -88,7 +88,7 @@ function Badges() {
                     height: '100vh',
                     backgroundColor: 'rgba(0, 0, 0, 0.6)',
                     backdropFilter: 'blur(8px)',
-                    zIndex: 1000 // Adjust this value to make sure it's above other content
+                    zIndex: 1000 
                 }} onClick={handleCloseModal} />
             )}
         </>

@@ -7,6 +7,7 @@ import Badges from './Pages/Badges';
 import Membership from './Pages/Membership';
 import PointHistory from './Pages/PointHistory';
 import Dashboard from './Pages/Dashboard';
+import UserNavigation from './Pages/UserNavigation';
 
 function App() {
   const [image, SetImage] = useState("")
@@ -46,7 +47,7 @@ function App() {
       .then(response => console.log(response, "badge"))
       .catch(err => console.error(err));
   }, [])
-  // console.log(image)
+ 
 
   return (
     <div className="App">
@@ -60,7 +61,7 @@ function App() {
       </div>
 
 
-      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "80%", background: "white", height: "800px", borderRadius: "12px" }}>
+      <div style={{ display: "flex", flexDirection: "column", margin: "auto", alignItems: "center", marginTop: "65px", boxShadow: "rgba(99, 99, 99, 0.2) 0px 2px 8px 0px", width: "90%", background: "white", height: "800px", borderRadius: "12px" }}>
 
         <Image
 
@@ -126,6 +127,7 @@ function App() {
             {loading == null && null}
           </>
         </div>
+        <UserNavigation />
       </div>
     </div>
   );

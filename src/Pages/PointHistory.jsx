@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function PointHistory() {
-  const [data, SetData] = useState()
+  const [data, SetData] = useState([])
 
   useEffect(() => {
     const options = {
@@ -19,11 +19,12 @@ function PointHistory() {
       .then(response => SetData(response.data))
       .catch(err => console.error(err));
   }, [])
+  console.log(data)
   return (
     <div>
       <div style={{
         display: "grid",
-        gridTemplateColumns: "repeat(3,1fr)",
+        gridTemplateColumns: "repeat(2,1fr)",
         gap: "23px",
         justifyContent: "center",
         background: "white",
@@ -33,7 +34,7 @@ function PointHistory() {
         {
           data.map((res) => {
             return <>
-              <p>
+              <p style={{ padding: "12px 25px", boxShadow: " rgba(0, 0, 0, 0.16) 0px 1px 4px", background: "#6853f2", borderRadius: "12px", color: "white" }}>
                 {res.title}
               </p>
             </>
