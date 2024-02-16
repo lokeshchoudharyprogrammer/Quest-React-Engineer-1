@@ -25,13 +25,5 @@ This project aims to develop a mobile web page using React and integrating Chakr
 5. **Testing**: Conduct thorough testing to ensure the functionality and responsiveness of the mobile web page.
 6. **Deployment**: Deploy the application to a hosting platform (e.g., Netlify, Vercel) and share the deployed URL.
 
-### Project Duration:
-- **Development Time**: Approximately 2-3 hours to complete the initial development, focusing on efficiency and delivery speed.
-- **Testing and Deployment**: Additional time may be allocated for testing and deployment to ensure a polished final product.
-
-### Future Enhancements:
-- Implementation of additional features such as user interactions, real-time updates, and further customization options.
-- Optimization for performance and accessibility to enhance user experience across various devices and user needs.
-
 ### Conclusion:
 The React mobile page with Chakra UI integration project aims to demonstrate proficiency in front-end development using React and the utilization of a popular UI component library. By adhering to the provided requirements and design specifications, the project showcases the ability to build a responsive and visually appealing mobile web page while efficiently integrating external APIs to fetch and display dynamic user data.
